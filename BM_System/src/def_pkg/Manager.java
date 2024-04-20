@@ -168,5 +168,10 @@ public class Manager {
 		return acc_num;
 	}
 	
+	public List<Transaction_History> getTransactions() {
+		DB_Handler db = new DB_Handler();
+		List<Transaction_History> list = db.getAllTransactions();
+		return list;
+	}
 	// end of class
 }
