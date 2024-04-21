@@ -762,6 +762,27 @@ public class DB_Handler {
 		return list;
 	}
 	
+	public List<Transaction_History> getAllTransactions() {
+		List<Transaction_History> list=new ArrayList<Transaction_History>();  
+		try {	
+			// finding the transactions
+			String tQuery = "Select * From bank_schema.transaction_history";
+			System.out.println(tQuery);
+			Statement tSt = conn.createStatement();
+			ResultSet tRs = tSt.executeQuery(tQuery);
+			System.out.println();
+			while( tRs.next() ) {
+	        	// removing old instance of client and adding new instance with information
+				Transaction_History th = new Transaction_History( tRs.getString("serial_no"), tRs.getString("amount"), tRs.getString("type"), tRs.getString("date"), tRs.getString("time"), tRs.getString("account_num"), tRs.getString("recv_acc_num"), tRs.getString("cheque_num") );
+				System.out.print("@-");
+				list.add( th );
+	        }
+		}
+		catch (SQLException e) {
+			System.out.println("Something went wrong");
+		}
+		return list;
+	}
 	
 	
 	public int createPDF( Client client, Bank_Account account, String From, String To ) { 

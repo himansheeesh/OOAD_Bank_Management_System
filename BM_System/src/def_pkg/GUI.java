@@ -1379,9 +1379,22 @@ public class GUI {
 			    updateClientInfo(frame, manager);
 			}
 		});
-		
-	
-		
+
+		// View all transactions Button
+		JButton btnViewTrans = new JButton("View All Transactions");
+		btnViewTrans.setBounds(300,320,200, 40);
+		btnViewTrans.setBackground( new Color(0, 204, 153) );
+		btnViewTrans.setForeground(Color.white);
+		f.add(btnViewTrans);
+
+		//function to be executed when View All Transactions Button is clicked
+		btnViewTrans.addActionListener( new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				viewAllTransactions(frame, manager);
+			}
+		});
+
+
 		f.setLayout(null); 
 		frame.setContentPane(f);
 		frame.setVisible(true);
@@ -2328,7 +2341,82 @@ public class GUI {
 		frame.setVisible(true);
 	}
 	
-	
+	//In this screen the manager can view all the transactions in the bank
+	void viewAllTransactions(JFrame frame, Manager manager) {
+		JPanel f = new JPanel();
+		f.setBackground(Color.white);
+		
+		// View Transactions Label
+		JLabel lVT = new JLabel("View Transactions");
+		lVT.setFont( lVT.getFont().deriveFont(30f) );
+		lVT.setBounds(150,50,300, 40);
+		f.add(lVT);	
+		
+		// Transaction Table
+		JTable table = new JTable();
+		DefaultTableModel tableModel = new DefaultTableModel();
+		tableModel.addColumn("Transaction ID");
+		tableModel.addColumn("Account Number");
+		tableModel.addColumn("Amount");
+		tableModel.addColumn("Type");
+		tableModel.addColumn("Date");
+		tableModel.addColumn("Time");
+		tableModel.addColumn("Description");
+		table.setModel(tableModel);
+		table.setVisible(true);
+		
+		JScrollPane sp = new JScrollPane(table);
+		sp.setBounds(50,100,700, 200);
+		f.add(sp);
+		
+		// Fill the table with data
+		List<Transaction_History> transactions = manager.getTransactions();
+
+		for( Transaction_History th: transactions) {
+			tableModel.addRow(new Object[] { th.getSerialNo(), th.getAmount(), th.getType(), th.getDate(), th.getTime(), th.getAccountNumber(), th.getRecvAccNum(), th.getChequeNum() });
+		}	
+		tableModel.fireTableDataChanged();
+		sp.setVisible(true);
+
+
+		// Main Menu Button
+		JButton btn_mm = new JButton("Main Menu");
+		btn_mm.setBackground( new Color(0, 204, 153) );
+		btn_mm.setForeground(Color.white);
+		btn_mm.setBounds(50,400,100, 30);
+		f.add(btn_mm);
+		
+		// function to be executed when Main Menu Button is clicked
+		btn_mm.addActionListener( new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.remove(f);
+				frame.repaint();
+				frame.validate();
+				openManagerMenu(frame, manager);
+			}
+		});
+				
+		// Sign Out Button
+		JButton btn_sign_out = new JButton("Sign Out");
+		btn_sign_out.setBackground( new Color(0, 204, 153) );
+		btn_sign_out.setForeground(Color.white);
+		btn_sign_out.setBounds(650,30,100, 30);
+		f.add(btn_sign_out);
+		
+		// function to be executed when Sign Out Button is clicked
+		btn_sign_out.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.remove(f);
+				frame.repaint();
+				frame.validate();
+				Login_Account user = new Login_Account();
+				openSignInForm(frame, user);
+			}
+		});
+		f.setLayout(null); 
+		frame.setContentPane(f);
+		frame.setVisible(true);
+	}
 	
 	//--------------------------------------------------------
 	//               Accountant Related Screens               |
