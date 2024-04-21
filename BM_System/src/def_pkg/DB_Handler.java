@@ -1,6 +1,8 @@
 package def_pkg;
 
 import java.io.FileOutputStream;
+import java.sql.PreparedStatement;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -991,6 +993,38 @@ public class DB_Handler {
         catch (SQLException e) {
             throw new IllegalStateException("Trying to close a not opened db connection" + e.getMessage());
         }
+	}
+	
+	public boolean performKYC(Client client) {
+	    try {
+	        PreparedStatement pstmt = conn.prepareStatement("INSERT INTO kyc_status (client_id, status) VALUES (?, ?) ON DUPLICATE KEY UPDATE status = VALUES(status)");
+	        int clientId = Integer.parseInt(client.getClientID());
+	        pstmt.setInt(1, clientId);
+	        pstmt.setString(2, "Verified");
+	        int rowsAffected = pstmt.executeUpdate();
+	        return rowsAffected > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	
+	public boolean performKYC(String clientID, String clientAddress) {
+	    boolean kycResult = false;
+	    try {
+	        String query = "SELECT * FROM client WHERE client_id = ? AND address = ?";
+	        PreparedStatement pst = conn.prepareStatement(query);
+	        pst.setString(1, clientID);
+	        pst.setString(2, clientAddress);
+	        ResultSet rs = pst.executeQuery();
+	        if (rs.next()) {
+	            // Client ID and Address match the database entry
+	            kycResult = true;
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return kycResult;
 	}
 	
 }

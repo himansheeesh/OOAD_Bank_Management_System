@@ -36,6 +36,8 @@ public class Login_Account {
 			type_ = "Manager";
 		else if( type.compareTo("A") == 0 ) 
 			type_ = "Accountant";
+		else if( type.compareTo("K") == 0 ) 
+			type_ = "KYC_Manager";
 		return type_;
 	}
 	

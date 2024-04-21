@@ -128,13 +128,147 @@ public class GUI {
 						frame.validate();
 						openAccountantMenu(frame, accountant);
 					}
+					else if( user.getType().compareTo("KYC_Manager") == 0 ) {
+						KYC_Manager KYC = new KYC_Manager( user.getName() );
+						frame.remove(f);
+						frame.repaint();
+						frame.validate();
+						openKYCManagerMenu(frame, KYC);
+					}
 				}		
 			}
 		});
 		remakeScreen(frame, f);
 	}
 	
+	// KYC Manager Menu
+	void openKYCManagerMenu(JFrame frame, KYC_Manager kycManager) {
+	    JPanel f = new JPanel();
+	    f.setBackground(Color.white);
+
+	    // User Name label
+	    JLabel lUser = new JLabel(kycManager.getName());
+	    lUser.setFont(lUser.getFont().deriveFont(30f));
+	    lUser.setBounds(100, 50, 300, 40);
+	    f.add(lUser);
+
+	    // Designation label
+	    JLabel lDesg = new JLabel("KYC Manager");
+	    lDesg.setBounds(100, 80, 100, 40);
+	    f.add(lDesg);
+
+	    // Perform KYC button
+	    JButton btnPerformKYC = new JButton("Perform KYC");
+	    btnPerformKYC.setBackground(new Color(0, 204, 153));
+	    btnPerformKYC.setForeground(Color.white);
+	    btnPerformKYC.setBounds(100, 180, 150, 40);
+	    f.add(btnPerformKYC);
+
+	    // function to be executed when Perform KYC button is clicked
+	    btnPerformKYC.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            frame.remove(f);
+	            frame.repaint();
+	            frame.validate();
+	            performKYCForm(frame, kycManager);
+	        }
+	    });
+	    
+
+	    // Sign Out Button
+	    JButton btn_sign_out = new JButton("Sign Out");
+	    btn_sign_out.setBackground(new Color(0, 204, 153));
+	    btn_sign_out.setForeground(Color.white);
+	    btn_sign_out.setBounds(650, 30, 100, 30);
+	    f.add(btn_sign_out);
+
+	    // function to be executed when Sign Out Button is clicked
+	    btn_sign_out.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            frame.remove(f);
+	            frame.repaint();
+	            frame.validate();
+	            Login_Account user = new Login_Account();
+	            openSignInForm(frame, user);
+	        }
+	    });
+
+	    f.setLayout(null);
+	    frame.setContentPane(f);
+	    frame.setVisible(true);
+	}
 	
+	void performKYCForm(JFrame frame, KYC_Manager kycManager) {
+	    JPanel f = new JPanel();
+	    f.setBackground(Color.white);
+	    
+	    // KYC Label
+	    JLabel lKYC = new JLabel("Perform KYC");
+	    lKYC.setFont(lKYC.getFont().deriveFont(30f));
+	    lKYC.setBounds(250, 50, 200, 40);
+	    f.add(lKYC);
+	    
+	    // Client ID Label
+	    JLabel lClientID = new JLabel("Enter Client ID:");
+	    lClientID.setBounds(150, 100, 150, 40);
+	    f.add(lClientID);
+	    
+	    // Client ID Text Field
+	    JTextField tfClientID = new JTextField();
+	    tfClientID.setBounds(150, 130, 180, 25);
+	    f.add(tfClientID);
+	    
+	    // Client Address Label
+	    JLabel lClientAddress = new JLabel("Enter Client Address:");
+	    lClientAddress.setBounds(150, 160, 150, 40);
+	    f.add(lClientAddress);
+	    
+	    // Client Address Text Field
+	    JTextField tfClientAddress = new JTextField();
+	    tfClientAddress.setBounds(150, 190, 180, 25);
+	    f.add(tfClientAddress);
+	    
+	    // Perform KYC Button
+	    JButton btnPerformKYC = new JButton("Perform KYC");
+	    btnPerformKYC.setBackground(new Color(0, 204, 153));
+	    btnPerformKYC.setForeground(Color.white);
+	    btnPerformKYC.setBounds(150, 250, 150, 40);
+	    f.add(btnPerformKYC);
+	    
+	    // function to be executed when Perform KYC Button is clicked
+	    btnPerformKYC.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            String clientID = tfClientID.getText();
+	            String clientAddress = tfClientAddress.getText();
+	            kycManager.performKYC(frame, clientID, clientAddress);
+	        }
+	    });
+	    
+	    // Sign Out Button
+	    JButton btnSignOut = new JButton("Sign Out");
+	    btnSignOut.setBackground(new Color(0, 204, 153));
+	    btnSignOut.setForeground(Color.white);
+	    btnSignOut.setBounds(650, 30, 100, 30);
+	    f.add(btnSignOut);
+	    
+	    // function to be executed when Sign Out Button is clicked
+	    btnSignOut.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            frame.remove(f);
+	            frame.repaint();
+	            frame.validate();
+	            // Call the method to open the sign-in form
+	            openSignInForm(frame, new Login_Account());
+	        }
+	    });
+	    
+	    // displaying the new panel on frame    
+	    f.setLayout(null); 
+	    frame.setContentPane(f);
+	    frame.setVisible(true);
+	}
+
+
 	
 	
 	
