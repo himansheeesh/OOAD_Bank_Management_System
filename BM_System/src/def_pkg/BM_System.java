@@ -14,6 +14,5 @@ public class BM_System {
 		frame.setSize(800,500);  
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(frame.DISPOSE_ON_CLOSE);
-		
 	}
 }
